@@ -3,21 +3,19 @@ use reqwest::Client;
 pub struct CerebrasClient {
     http: Client,
     api_key: String,
-    model: String,
 }
 
 impl CerebrasClient {
-    pub fn new(api_key: impl Into<String>, model: impl Into<String>) -> CerebrasClient {
+    pub fn new(api_key: impl Into<String>) -> CerebrasClient {
         CerebrasClient {
             http: Client::builder().use_rustls_tls().build().unwrap(),
             api_key: api_key.into(),
-            model: model.into(),
         }
     }
 }
 
 pub mod chat {
-    use crate::error::APIError;
+    use crate::models::ChatModel;
     use crate::{
         client::CerebrasClient,
         models::{ChatRequest, Message},
@@ -26,13 +24,17 @@ pub mod chat {
     const URL: &str = "https://api.cerebras.ai/v1/chat/completions";
 
     impl CerebrasClient {
-        pub async fn completion(&self, content: String) -> Result<Response, Error> {
+        pub async fn completion(
+            &self,
+            content: String,
+            model: ChatModel,
+        ) -> Result<Response, Error> {
             let message = Message {
                 content,
                 role: "user".to_string(),
             };
             let request = ChatRequest {
-                model: self.model.clone(),
+                model: model.into(),
                 stream: false,
                 messages: vec![message],
                 temperature: 0.0,
@@ -44,7 +46,7 @@ pub mod chat {
                 .http
                 .request(Method::POST, URL)
                 .header("Content-Type", "application/json")
-                .header("Authorization", format!("Bearer {}", self.api_key.clone()))
+                .header("Authorization", format!("Bearer {}", &self.api_key))
                 .json(&request)
                 .send()
                 .await?;
