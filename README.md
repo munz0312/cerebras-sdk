@@ -36,7 +36,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build();
 
     let response = client.send(request).await?;
-    let response: ChatResponse = response.json().await?;
     let content = &response.choices[0].message.content;
     println!("{}", content);
 

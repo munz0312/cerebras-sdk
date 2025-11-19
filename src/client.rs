@@ -15,22 +15,26 @@ impl CerebrasClient {
 }
 
 pub mod chat {
-    use crate::{client::CerebrasClient, models::ChatRequest};
-    use reqwest::{Error, Method, Response};
+    use crate::{
+        client::CerebrasClient,
+        models::{ChatRequest, ChatResponse},
+    };
+    use reqwest::Error;
     const URL: &str = "https://api.cerebras.ai/v1/chat/completions";
 
     impl CerebrasClient {
-        pub async fn send(&self, request: ChatRequest) -> Result<Response, Error> {
+        pub async fn send(&self, request: ChatRequest) -> Result<ChatResponse, Error> {
             let response = self
                 .http
-                .request(Method::POST, URL)
+                .post(URL)
                 .header("Content-Type", "application/json")
                 .header("Authorization", format!("Bearer {}", &self.api_key))
                 .json(&request)
                 .send()
                 .await?;
 
-            Ok(response)
+            let chat_response: ChatResponse = response.json().await?;
+            Ok(chat_response)
         }
     }
 }
