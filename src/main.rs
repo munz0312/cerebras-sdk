@@ -4,7 +4,7 @@ use std::env;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenv::from_path(".env").ok();
-    let api_key = env::var("API_KEY").unwrap();
+    let api_key = env::var("API_KEY").expect("env variable API_KEY must be set");
     let client = CerebrasClient::new(api_key);
     let response = client
         .completion(
