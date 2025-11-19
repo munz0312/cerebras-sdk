@@ -23,7 +23,7 @@ pub struct ChatRequestBuilder {
 }
 
 impl ChatRequestBuilder {
-    pub fn new() -> ChatRequestBuilder {
+    pub fn builder() -> ChatRequestBuilder {
         ChatRequestBuilder {
             model: ChatModel::Llama31_8B,
             // stream: false,
@@ -40,10 +40,10 @@ impl ChatRequestBuilder {
         self
     }
 
-    pub fn message(mut self, content: &str) -> Self {
+    pub fn message(mut self, content: &str, role: Role) -> Self {
         self.messages.push(Message {
             content: content.to_string(),
-            role: "user".to_string(),
+            role,
         });
         self
     }
@@ -114,7 +114,15 @@ pub struct TimeInfo {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Message {
     pub content: String,
-    pub role: String,
+    pub role: Role,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Role {
+    User,
+    System,
+    Assistant,
 }
 
 #[derive(Debug, Clone)]
