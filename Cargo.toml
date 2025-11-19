@@ -2,6 +2,11 @@
 name = "cerebras-sdk"
 version = "0.1.0"
 edition = "2024"
+description = "A Rust SDK for the Cerebras AI API"
+license = "MIT"
+repository = "https://github.com/munz0312/cerebras-sdk"
+keywords = ["cerebras", "ai", "api", "client", "sdk", "llm", "chat"]
+categories = ["api-bindings"]
 
 [dependencies]
 dotenv = "0.15.0"
