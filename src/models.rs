@@ -11,6 +11,76 @@ pub struct ChatRequest {
     pub top_p: f32,
 }
 
+#[derive(Debug, Clone)]
+pub struct ChatRequestBuilder {
+    pub model: ChatModel,
+    // pub stream: bool,
+    pub messages: Vec<Message>,
+    pub temperature: f32,
+    pub max_tokens: i32,
+    pub seed: u32,
+    pub top_p: f32,
+}
+
+impl ChatRequestBuilder {
+    pub fn new() -> ChatRequestBuilder {
+        ChatRequestBuilder {
+            model: ChatModel::Llama31_8B,
+            // stream: false,
+            messages: Vec::new(),
+            temperature: 0.0,
+            max_tokens: -1,
+            seed: 0,
+            top_p: 1.0,
+        }
+    }
+
+    pub fn model(mut self, model: ChatModel) -> Self {
+        self.model = model;
+        self
+    }
+
+    pub fn message(mut self, content: &str) -> Self {
+        self.messages.push(Message {
+            content: content.to_string(),
+            role: "user".to_string(),
+        });
+        self
+    }
+
+    pub fn temperature(mut self, temp: f32) -> Self {
+        self.temperature = temp;
+        self
+    }
+
+    pub fn max_tokens(mut self, max: i32) -> Self {
+        self.max_tokens = max;
+        self
+    }
+
+    pub fn seed(mut self, seed: u32) -> Self {
+        self.seed = seed;
+        self
+    }
+
+    pub fn top_p(mut self, top_p: f32) -> Self {
+        self.top_p = top_p;
+        self
+    }
+
+    pub fn build(self) -> ChatRequest {
+        ChatRequest {
+            model: self.model.into(),
+            stream: false,
+            messages: self.messages,
+            temperature: self.temperature,
+            max_tokens: self.max_tokens,
+            seed: self.seed,
+            top_p: self.top_p,
+        }
+    }
+}
+
 pub struct ChatResponse {
     id: String,
     choices: Vec<Choice>,
@@ -47,6 +117,7 @@ pub struct Message {
     pub role: String,
 }
 
+#[derive(Debug, Clone)]
 pub enum ChatModel {
     Llama31_8B,
     Llama33_70B,

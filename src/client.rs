@@ -15,33 +15,12 @@ impl CerebrasClient {
 }
 
 pub mod chat {
-    use crate::models::ChatModel;
-    use crate::{
-        client::CerebrasClient,
-        models::{ChatRequest, Message},
-    };
+    use crate::{client::CerebrasClient, models::ChatRequest};
     use reqwest::{Error, Method, Response};
     const URL: &str = "https://api.cerebras.ai/v1/chat/completions";
 
     impl CerebrasClient {
-        pub async fn completion(
-            &self,
-            content: String,
-            model: ChatModel,
-        ) -> Result<Response, Error> {
-            let message = Message {
-                content,
-                role: "user".to_string(),
-            };
-            let request = ChatRequest {
-                model: model.into(),
-                stream: false,
-                messages: vec![message],
-                temperature: 0.0,
-                max_tokens: -1,
-                seed: 0,
-                top_p: 1.0,
-            };
+        pub async fn send(&self, request: ChatRequest) -> Result<Response, Error> {
             let response = self
                 .http
                 .request(Method::POST, URL)
