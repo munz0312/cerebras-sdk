@@ -1,4 +1,4 @@
-use cerebras_sdk::{CerebrasClient, ChatRequestBuilder, Role};
+use cerebras_sdk::{CerebrasClient, ChatRequestBuilder, ChatResponse, Role};
 use std::env;
 
 #[tokio::main]
@@ -11,7 +11,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .seed(42)
         .build();
     let response = client.send(request).await?;
-    println!("Status code: {}", response.status());
-    println!("Response text: {}", response.text().await?);
+    let response: ChatResponse = response.json().await?;
+    let content = &response.choices[0].message.content;
+    println!("{}", content);
     Ok(())
 }

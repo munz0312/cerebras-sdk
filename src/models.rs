@@ -81,34 +81,39 @@ impl ChatRequestBuilder {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatResponse {
-    id: String,
-    choices: Vec<Choice>,
-    created: i64,
-    model: String,
-    system_fingerprint: String,
-    usage: Usage,
-    time_info: TimeInfo,
+    pub id: String,
+    pub choices: Vec<Choice>,
+    pub created: i64,
+    pub model: String,
+    pub system_fingerprint: String,
+    pub object: String,
+    pub usage: Usage,
+    pub time_info: TimeInfo,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Choice {
-    finish_reason: String,
-    index: u32,
-    message: Message,
+    pub finish_reason: String,
+    pub index: u32,
+    pub message: Message,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Usage {
-    total_tokens: u32,
-    completion_tokens: u32,
-    prompt_tokens: u32,
+    pub total_tokens: u32,
+    pub completion_tokens: u32,
+    pub prompt_tokens: u32,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TimeInfo {
-    queue_time: f64,
-    prompt_time: f64,
-    completion_time: f64,
-    total_time: f64,
-    created: f64,
+    pub queue_time: f64,
+    pub prompt_time: f64,
+    pub completion_time: f64,
+    pub total_time: f64,
+    pub created: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
