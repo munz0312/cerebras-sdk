@@ -5,7 +5,7 @@ use std::env;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenv::from_path(".env").ok();
     let api_key = env::var("API_KEY").expect("env variable API_KEY must be set");
-    let client = CerebrasClient::new(api_key);
+    let client = CerebrasClient::new(api_key)?;
     let request = ChatRequestBuilder::builder()
         .message("What is the C programming language", Role::User)
         .seed(42)

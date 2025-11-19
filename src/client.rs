@@ -6,11 +6,11 @@ pub struct CerebrasClient {
 }
 
 impl CerebrasClient {
-    pub fn new(api_key: impl Into<String>) -> CerebrasClient {
-        CerebrasClient {
-            http: Client::builder().use_rustls_tls().build().unwrap(),
+    pub fn new(api_key: impl Into<String>) -> Result<CerebrasClient, reqwest::Error> {
+        Ok(CerebrasClient {
+            http: Client::builder().use_rustls_tls().build()?,
             api_key: api_key.into(),
-        }
+        })
     }
 }
 
