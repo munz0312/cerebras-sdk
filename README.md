@@ -8,7 +8,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-cerebras-sdk = "0.1.0"
+cerebras-sdk = "0.1.1"
 ```
 
 ## Usage
@@ -45,17 +45,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ## Features
 
-- Type-safe client for the Cerebras AI API
-- Builder pattern for chat requests
+- Type-safe library for the Cerebras Inference API
 - Support for multiple AI models
 - Async/await support
 
 ## Supported Models
 
-- `Llama31_8B`
-- `Llama33_70B`
-- `OpenAIGptOss`
-- `Qwen3_32B`
+- `llama3.1-8b`
+- `llama3.3-70B`
+- `gpt-oss-120b`
+- `qwen-3-32b`
 
 ## License
 
