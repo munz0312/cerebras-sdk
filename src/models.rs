@@ -1,16 +1,20 @@
 use serde::{Deserialize, Serialize};
 
+/// The request to be sent to the Cerebras API
+///
+/// Build it using `ChatRequestBuilder`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatRequest {
-    pub model: String,
-    pub stream: bool,
-    pub messages: Vec<Message>,
-    pub temperature: f32,
-    pub max_tokens: i32,
-    pub seed: u32,
-    pub top_p: f32,
+    model: String,
+    stream: bool,
+    messages: Vec<Message>,
+    temperature: f32,
+    max_tokens: i32,
+    seed: u32,
+    top_p: f32,
 }
 
+/// Builder for `ChatRequest`
 #[derive(Debug, Clone)]
 pub struct ChatRequestBuilder {
     pub model: ChatModel,
@@ -23,6 +27,12 @@ pub struct ChatRequestBuilder {
 }
 
 impl ChatRequestBuilder {
+    /// Creates a request. Configure parameters using the respective methods, then [`build()`] it
+    /// when ready to send
+    ///
+    /// All of the parameters have default values set. See source for more info.
+    ///
+    /// [`build()`]: ChatRequestBuilder::build
     pub fn builder() -> ChatRequestBuilder {
         ChatRequestBuilder {
             model: ChatModel::Llama31_8B,
@@ -68,6 +78,7 @@ impl ChatRequestBuilder {
         self
     }
 
+    /// Use this when the request is ready to be sent.
     pub fn build(self) -> ChatRequest {
         ChatRequest {
             model: self.model.into(),
@@ -81,6 +92,9 @@ impl ChatRequestBuilder {
     }
 }
 
+/// The type that the response gets deserialized into
+///
+/// It's pretty much identical to the json response that you'd get from the API
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatResponse {
     pub id: String,
@@ -122,6 +136,10 @@ pub struct Message {
     pub role: Role,
 }
 
+/// To be used with [`Message`] to note 'who' the content of a message is from.
+///
+///
+/// [`Message`]: Message
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum Role {
@@ -130,6 +148,10 @@ pub enum Role {
     Assistant,
 }
 
+/// The models currently support by the Cerebras API
+///
+/// See https://inference-docs.cerebras.ai/models/overview for the up-to-date list.
+///
 #[derive(Debug, Clone)]
 pub enum ChatModel {
     Llama31_8B,

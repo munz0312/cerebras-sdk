@@ -10,7 +10,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .message("What is the C programming language", Role::User)
         .seed(42)
         .build();
-    let response = client.send(request).await?;
+    let response = client.chat(request).await?;
     let content = &response.choices[0].message.content;
     println!("{}", content);
     Ok(())
