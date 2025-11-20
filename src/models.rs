@@ -148,9 +148,9 @@ pub enum Role {
     Assistant,
 }
 
-/// The models currently support by the Cerebras API
+/// The models currently supported by the Cerebras API
 ///
-/// See https://inference-docs.cerebras.ai/models/overview for the up-to-date list.
+/// See <https://inference-docs.cerebras.ai/models/overview> for the up-to-date list.
 ///
 #[derive(Debug, Clone)]
 pub enum ChatModel {

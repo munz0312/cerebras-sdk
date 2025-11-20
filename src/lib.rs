@@ -23,7 +23,7 @@
 //!         .top_p(0.9)
 //!         .build();
 //!
-//!     let response = client.send(request).await?;
+//!     let response = client.chat(request).await?;
 //!     let reply = &response.choices[0].message.content;
 //!     println!("Assistant: {}", reply);
 //!
