@@ -8,7 +8,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-cerebras-sdk = "0.1.1"
+cerebras-sdk = "0.1.3"
 ```
 
 ## Usage
@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .seed(42)
         .build();
 
-    let response = client.send(request).await?;
+    let response = client.chat(request).await?;
     let content = &response.choices[0].message.content;
     println!("{}", content);
 
